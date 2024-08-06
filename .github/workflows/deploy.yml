@@ -16,11 +16,11 @@ jobs:
     - name: Deploy to Hostinger via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.2.0
       with:
-        server: resifix.com.br
+        server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         server-dir: /public_html/api/
         protocol: ftp
-        dry-run: false
+        dry-run: true
         log-level: standard
