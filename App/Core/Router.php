@@ -98,8 +98,8 @@ class Router {
     echo "Rota não encontrada";
   }
 
-  private function getUrl(): string {
-    return parse_url(ucwords(strtolower($_SERVER['REQUEST_URI']), '/'), PHP_URL_PATH);
+  private function getUrl() {
+    echo parse_url(ucwords(strtolower($_SERVER['REQUEST_URI']), '/'), PHP_URL_PATH);
   }
 
 }
