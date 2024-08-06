@@ -22,5 +22,5 @@ jobs:
         local-dir: ./
         server-dir: /
         protocol: ftp
-        dry-run: false
+        dry-run: true
         log-level: standard
