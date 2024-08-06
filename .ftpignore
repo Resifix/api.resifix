@@ -1,4 +1,5 @@
-./.github/
-./README.md
-./composer.json
-./sql/
+/.github
+/sql
+
+*.md
+*.json
