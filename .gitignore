@@ -1,5 +1,4 @@
 # Ignorar - Back-end
-/vendor
 composer.lock
 
 # Ignorar - dotenv
