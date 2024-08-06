@@ -23,4 +23,4 @@ jobs:
         server-dir: /public_html/api
         protocol: ftp
         dry-run: true
-        log-level: info
+        log-level: standard

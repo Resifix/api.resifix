@@ -18,7 +18,7 @@ jobs:
 
       - name: Install composer dependencies
         run: |
-          cd Back-end/resifix-api
+          cd api.resifix
           composer install -n --prefer-dist --ignore-platform-req=php
           composer require --dev drupal/coder squizlabs/php_codesniffer sirbrillig/phpcs-variable-analysis slevomat/coding-standard
 
