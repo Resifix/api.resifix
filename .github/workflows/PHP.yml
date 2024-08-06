@@ -1,0 +1,33 @@
+name: PHP
+
+on:
+  push:
+    paths:
+      - 'App/**'
+
+jobs:
+  PHPlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure Composer to allow plugins
+        run: |
+          cd api.resifix
+          composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+      - name: Install composer dependencies
+        run: |
+          cd Back-end/resifix-api
+          composer install -n --prefer-dist --ignore-platform-req=php
+          composer require --dev drupal/coder squizlabs/php_codesniffer sirbrillig/phpcs-variable-analysis slevomat/coding-standard
+
+      - name: Configure PHPCS
+        run: |
+          cd api.resifix
+          ./vendor/bin/phpcs --config-set installed_paths "$PWD/vendor/drupal/coder/coder_sniffer,$PWD/vendor/sirbrillig/phpcs-variable-analysis,$PWD/vendor/slevomat/coding-standard/"
+
+      - name: Run PHPCS
+        run: |
+          cd api.resifix
+          ./vendor/bin/phpcs --standard=Drupal --ignore='*.md' --extensions=php,profile,inc,install App/
