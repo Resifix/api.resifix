@@ -60,8 +60,7 @@ class AreaAtuacao {
     $stmt->bindValue(1, $this->descricao);
 
     if ($stmt->execute()) {
-      $lastInsertId = Model::getConn()->lastInsertId();
-      $this->idAreaAtuacao = intval($lastInsertId);
+      $this->idAreaAtuacao = Model::getLastId('idAreaAtuacao', 'tbAreasAtuacoes');
       return $this;
     } else {
       print_r($stmt->errorInfo());

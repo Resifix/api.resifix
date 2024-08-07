@@ -30,4 +30,19 @@ class Model {
     }
   }
 
+  public static function getLastId(string $campo, string $tabela): int {
+    $query = "SELECT * FROM $tabela ORDER BY $campo DESC LIMIT 1";
+
+    $stmt = self::getConn()->prepare($query);
+
+    $stmt->execute();
+
+    if ($stmt->rowCount()) {
+      $lastId = $stmt->fetch(\PDO::FETCH_OBJ);
+      return (int)$lastId->$campo;
+    } else {
+      return 0;
+    }
+  }
+
 }
