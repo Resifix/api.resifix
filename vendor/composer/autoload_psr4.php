@@ -13,5 +13,6 @@ return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'Box\\Spout\\' => array($vendorDir . '/box/spout/src/Spout'),
     'App\\' => array($baseDir . '/App'),
 );

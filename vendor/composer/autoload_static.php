@@ -32,6 +32,10 @@ class ComposerStaticInit13396d5cacc377bbd06bd0a05733651f
         array (
             'Dotenv\\' => 7,
         ),
+        'B' => 
+        array (
+            'Box\\Spout\\' => 10,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -66,6 +70,10 @@ class ComposerStaticInit13396d5cacc377bbd06bd0a05733651f
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Box\\Spout\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/box/spout/src/Spout',
         ),
         'App\\' => 
         array (

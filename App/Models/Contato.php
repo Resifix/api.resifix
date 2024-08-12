@@ -67,7 +67,7 @@ class Contato {
     return "Prezado(a) $this->nome,<br><br>
     Agradecemos por entrar em contato com a Resifix. Sua mensagem é muito importante para nós, e queremos garantir que você tenha a melhor experiência possível.<br><br>
     Nossa equipe está pronta para ajudar e responder a qualquer dúvida ou preocupação que você possa ter. Entraremos em contato o mais breve possível para atendê-lo da melhor forma.<br><br>
-    Caso precise de assistência imediata, sinta-se à vontade para nos enviar um e-mail ou visitar nosso site em <a href='www.resifix.com.br'>www.resifix.com.br</a>.<br><br>
+    Caso precise de assistência imediata, sinta-se à vontade para nos enviar um e-mail ou visitar nosso site em <a href='https://resifix.com.br'>www.resifix.com.br</a>.<br><br>
     Obrigado por escolher a Resifix. Estamos ansiosos para ajudar você!<br><br>
     Atenciosamente,<br><br>
     Equipe Resifix";
@@ -76,7 +76,9 @@ class Contato {
   private function getAdminEmailBody(): string {
     return "Formulário de Contato Resifix.<br><br>
     $this->mensagem<br><br>
-    $this->nome,<br>$this->celular,<br>$this->email.";
+    $this->nome,
+    <br><a href='tel:$this->celular'>$this->celular</a>,
+    <br><a href='mailto:$this->email'>$this->email</a>.";
   }
 
 }

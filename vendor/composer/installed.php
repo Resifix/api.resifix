@@ -3,13 +3,22 @@
         'name' => 'resifix/resifix-api',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7af64e146032ee229d6352f1e5de9b2ad8962b32',
+        'reference' => 'e78ea001d37396f9e1d94a2b8b36e92d31758b7e',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'box/spout' => array(
+            'pretty_version' => 'v3.3.0',
+            'version' => '3.3.0.0',
+            'reference' => '9bdb027d312b732515b884a341c0ad70372c6295',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../box/spout',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'graham-campbell/result-type' => array(
             'pretty_version' => 'v1.1.3',
             'version' => '1.1.3.0',
@@ -40,7 +49,7 @@
         'resifix/resifix-api' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7af64e146032ee229d6352f1e5de9b2ad8962b32',
+            'reference' => 'e78ea001d37396f9e1d94a2b8b36e92d31758b7e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
