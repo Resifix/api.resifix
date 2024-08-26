@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\Profissional;
-use App\Models\Cliente;
 
 class Logins extends Controller {
 

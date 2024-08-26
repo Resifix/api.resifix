@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\AreaAtuacao;
-use App\Models\Profissional;
 
 class Profissionais extends Controller {
 

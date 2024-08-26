@@ -22,24 +22,34 @@ class Router {
         'controller' => 'Ceps'
     );
 
-    $routes['clientes'] = array (
+    $routes['cliente'] = array (
         'route' => '/Clientes',
         'controller' => 'Clientes'
     );
 
-    $routes['contatos'] = array (
+    $routes['contato'] = array (
       'route' => '/Contatos',
       'controller' => 'Contatos'
     );
 
-    $routes['logins'] = array (
+    $routes['login'] = array (
       'route' => '/Logins',
       'controller' => 'Logins'
     );
 
-    $routes['profissionais'] = array (
+    $routes['profissional'] = array (
         'route' => '/Profissionais',
         'controller' => 'Profissionais'
+    );
+
+    $routes['tiposPagamentos'] = array (
+      'route' => '/Tipospagamentos',
+      'controller' => 'TiposPagamentos'
+    );
+
+    $routes['solicitacaoServico'] = array (
+      'route' => '/Solicitacoesservicos',
+      'controller' => 'SolicitacoesServicos'
     );
 
     $this->setRoutes($routes);
