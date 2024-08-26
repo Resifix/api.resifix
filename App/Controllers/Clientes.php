@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\Cep;
-use App\Models\Cliente;
 
 class Clientes extends Controller {
 

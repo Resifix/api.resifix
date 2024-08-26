@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Core\Model;
 
-class Cep {
+class TipoPagamento {
 
-  private int $idCep;
+  private int $idTipoPagamento;
   private string $descricao;
 
   public function __get($propriedade) {
@@ -14,7 +14,7 @@ class Cep {
   }
 
   public function findAll(): array {
-    $query = 'SELECT * FROM tbCeps';
+    $query = 'SELECT * FROM tbTiposPagamentos';
 
     $stmt = Model::getConn()->prepare($query);
     $stmt->execute();
@@ -27,7 +27,7 @@ class Cep {
   }
 
   public function findId(string $descricao): ?Cep {
-    $query = 'SELECT * FROM tbCeps WHERE descricao = ?';
+    $query = 'SELECT * FROM tbTiposPagamentos WHERE descricao = ?';
 
     $stmt = Model::getConn()->prepare($query);
     $stmt->bindValue(1, $descricao);
@@ -35,14 +35,14 @@ class Cep {
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-      $cep = $stmt->fetch(\PDO::FETCH_OBJ);
+      $tipoPagamento = $stmt->fetch(\PDO::FETCH_OBJ);
 
-      if(!$cep) {
+      if(!$tipoPagamento) {
           return NULL;
       }
 
-      $this->idCep = $cep->idCep;
-      $this->descricao = $cep->descricao;
+      $this->idTipoPagamento = $tipoPagamento->idTipoPagamento;
+      $this->descricao = $tipoPagamento->descricao;
 
       return $this;
     } else {
@@ -53,14 +53,14 @@ class Cep {
   public function create($data) {
     $this->descricao = $data;
 
-    $query = 'INSERT INTO tbCeps (descricao) VALUES (?)';
+    $query = 'INSERT INTO tbTiposPagamentos (descricao) VALUES (?)';
 
     $stmt = Model::getConn()->prepare($query);
     $stmt->bindValue(1, $this->descricao);
 
     if ($stmt->execute()) {
       $lastInsertId = Model::getConn()->lastInsertId();
-      $this->idCep = intval($lastInsertId);
+      $this->idTipoPagamento = intval($lastInsertId);
       return $this;
     } else {
       print_r($stmt->errorInfo());

@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Models\Contato;
-use Exception;
 
 class Contatos extends Controller {
 
@@ -16,7 +14,7 @@ class Contatos extends Controller {
     try {
         $contatoModel->create($novoContato);
         echo json_encode(["success" => 'Mensagem enviada com sucesso']);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         http_response_code(500);
         echo json_encode(["erro" => 'Erro ao enviar e-mail: ' . $e->getMessage()]);
     }
