@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Remove
+    - name: Remove unnecessary files
       run: |
         rm -rf *.md
 
@@ -37,5 +37,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd api/
-          composer install --no-interaction --prefer-dist --optimize-autoloader
+          if [ -d "/api/" ]; then
+            cd /api/
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+          else
+            echo "Directory /api/ does not exist."
+            exit 1
+          fi
