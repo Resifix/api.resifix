@@ -15,8 +15,6 @@ jobs:
 
     - name: Remove
       run: |
-        rm -rf sql
-        rm -rf *.json
         rm -rf *.md
 
     - name: Deploy to Hostinger via FTP
