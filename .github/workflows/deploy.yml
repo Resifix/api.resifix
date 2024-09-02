@@ -30,6 +30,17 @@ jobs:
         log-level: standard
         dangerous-clean-slate: true
 
+    - name: Create .env on Server
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          echo "${{ secrets.ENV_FILE_CONTENTS }}" > /home/${{ secrets.SSH_USERNAME }}/public_html/api/.env
+
+
     - name: Install Composer Dependencies on Hostinger
       uses: appleboy/ssh-action@v0.1.8
       with:
