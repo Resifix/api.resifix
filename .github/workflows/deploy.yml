@@ -28,6 +28,7 @@ jobs:
         protocol: ftp
         dry-run: false
         log-level: standard
+        dangerous-clean-slate: true
 
     - name: Install Composer Dependencies on Hostinger
       uses: appleboy/ssh-action@v0.1.8
