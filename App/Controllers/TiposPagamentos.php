@@ -28,4 +28,17 @@ class TiposPagamentos extends Controller {
     }
   }
 
+  public function show(int $id) {
+    $tipoPagamentoModel = $this->getModel('tipoPagamento');
+    $tipoPagamento = $tipoPagamentoModel->getId($id);
+
+    if($tipoPagamento) {
+      http_response_code(200);
+      echo json_encode($tipoPagamento);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Tipo de pagamento não encontrado']);
+    }
+  }
+
 }

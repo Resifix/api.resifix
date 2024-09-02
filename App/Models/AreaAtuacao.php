@@ -20,7 +20,7 @@ class AreaAtuacao {
     $stmt->execute();
 
     if ($stmt->rowCount()) {
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
     } else {
         return [];
     }
@@ -65,6 +65,20 @@ class AreaAtuacao {
     } else {
       print_r($stmt->errorInfo());
       return NULL;
+    }
+  }
+
+  public function getId(int $id) {
+    $query = 'SELECT * FROM tbAreasAtuacoes WHERE idAreaAtuacao = ?';
+
+    $stmt = Model::getConn()->prepare($query);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if($stmt->rowCount()) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      return [];
     }
   }
 

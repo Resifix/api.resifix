@@ -72,4 +72,18 @@ class Cliente {
     }
   }
 
+  public function getId(int $id) {
+    $query = 'SELECT idCliente, nome, email, celular, idCep, numeroResidencia, complementoResidencia FROM tbClientes WHERE idCliente = ?';
+
+    $stmt = Model::getConn()->prepare($query);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if($stmt->rowCount()) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      return [];
+    }
+  }
+
 }

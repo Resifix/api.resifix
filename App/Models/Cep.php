@@ -68,4 +68,18 @@ class Cep {
     }
   }
 
+  public function getId(int $id) {
+    $query = 'SELECT * FROM tbCeps WHERE idCep = ?';
+
+    $stmt = Model::getConn()->prepare($query);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if($stmt->rowCount()) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      return [];
+    }
+  }
+
 }

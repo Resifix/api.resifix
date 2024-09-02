@@ -66,4 +66,18 @@ class Profissional {
     }
   }
 
+  public function getId(int $id) {
+    $query = 'SELECT idProfissional, nome, email, celular, idAreaAtuacao FROM tbProfissionais FROM tbProfissionais WHERE idProfissional = ?';
+
+    $stmt = Model::getConn()->prepare($query);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if($stmt->rowCount()) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      return [];
+    }
+  }
+
 }

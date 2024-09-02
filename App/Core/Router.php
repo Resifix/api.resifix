@@ -13,42 +13,42 @@ class Router {
   private function initRoutes() {
 
     $routes['areaAtuacao'] = array (
-      'route' => '/Areasatuacoes',
+      'route' => '/areasatuacoes',
       'controller' => 'AreasAtuacoes'
     );
 
     $routes['cep'] = array (
-        'route' => '/Ceps',
+        'route' => '/ceps',
         'controller' => 'Ceps'
     );
 
     $routes['cliente'] = array (
-        'route' => '/Clientes',
+        'route' => '/clientes',
         'controller' => 'Clientes'
     );
 
     $routes['contato'] = array (
-      'route' => '/Contatos',
+      'route' => '/contatos',
       'controller' => 'Contatos'
     );
 
     $routes['login'] = array (
-      'route' => '/Logins',
+      'route' => '/logins',
       'controller' => 'Logins'
     );
 
     $routes['profissional'] = array (
-        'route' => '/Profissionais',
+        'route' => '/profissionais',
         'controller' => 'Profissionais'
     );
 
     $routes['tiposPagamentos'] = array (
-      'route' => '/Tipospagamentos',
+      'route' => '/tipospagamentos',
       'controller' => 'TiposPagamentos'
     );
 
     $routes['solicitacaoServico'] = array (
-      'route' => '/Solicitacoesservicos',
+      'route' => '/solicitacoesservicos',
       'controller' => 'SolicitacoesServicos'
     );
 
@@ -63,20 +63,29 @@ class Router {
     $this->routes = $routes;
   }
 
-  private function run(string $url) {
+  private function run(array $urls) {
     foreach($this->getRoutes() as $key => $route) {
-      if ($url == $route['route']) {
+      if ("/$urls[0]" == $route['route']) {
         $class = 'App\\Controllers\\' . ucfirst($route['controller']);
         $controller = new $class;
         $action = '';
 
         switch ($_SERVER['REQUEST_METHOD']) {
           case 'DELETE':
-            $action = 'destroy';
+            if (isset($urls[1])) {
+              $action = 'destroy';
+            } else {
+              http_response_code(404);
+              echo json_encode(['erro' => 'Id não fornecido']);
+            }
             break;
 
           case 'GET':
-            $action = 'index';
+            if (isset($urls[1])) {
+              $action = 'show';
+            } else {
+              $action = 'index';
+            }
             break;
 
           case 'POST':
@@ -84,7 +93,12 @@ class Router {
             break;
 
           case 'PUT':
-            $action = 'update';
+            if (isset($urls[1])) {
+              $action = 'update';
+            } else {
+              http_response_code(404);
+              echo json_encode(['erro' => 'Id não fornecido']);
+            }
             break;
           
           default:
@@ -94,7 +108,12 @@ class Router {
         }
 
         if (method_exists($controller, $action)) {
-          $controller->$action();
+          if (isset($urls[1])) {
+            $controller->$action($urls[1]);
+          }
+          else {
+            $controller->$action();
+          }
         } else {
           http_response_code(404); // Not found.
           echo "Método não encontrado";
@@ -108,8 +127,10 @@ class Router {
     echo "Rota não encontrada";
   }
 
-  private function getUrl(): string {
-    return parse_url(ucwords(strtolower($_SERVER['REQUEST_URI']), '/'), PHP_URL_PATH);
+  private function getUrl(): array {
+    $url = parse_url(strtolower($_SERVER['REQUEST_URI']), PHP_URL_PATH);
+    $urls = explode('/', trim($url, '/'));
+    return $urls;
   }
 
 }

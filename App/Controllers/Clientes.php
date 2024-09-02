@@ -38,4 +38,17 @@ class Clientes extends Controller {
     }
   }
 
+  public function show(int $id) {
+    $clientesModel = $this->getModel('cliente');
+    $cliente = $clientesModel->getId($id);
+
+    if($cliente) {
+      http_response_code(200);
+      echo json_encode($cliente);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Cliente não encontrado']);
+    }
+  }
+
 }

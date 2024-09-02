@@ -26,7 +26,7 @@ class TipoPagamento {
     }
   }
 
-  public function findId(string $descricao): ?Cep {
+  public function findId(string $descricao): ?TipoPagamento {
     $query = 'SELECT * FROM tbTiposPagamentos WHERE descricao = ?';
 
     $stmt = Model::getConn()->prepare($query);
@@ -65,6 +65,20 @@ class TipoPagamento {
     } else {
       print_r($stmt->errorInfo());
       return NULL;
+    }
+  }
+
+  public function getId(int $id) {
+    $query = 'SELECT * FROM tbTiposPagamentos WHERE idTipoPagamento = ?';
+
+    $stmt = Model::getConn()->prepare($query);
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if($stmt->rowCount()) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      return [];
     }
   }
 

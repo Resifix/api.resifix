@@ -29,39 +29,17 @@ class Ceps extends Controller {
     }
   }
 
-  public function update() {
-    $reader = ReaderEntityFactory::createXLSXReader();
-    $filePath = '../CEP_SANTANA_DE_PARNAIBA.xlsx';
+  public function show(int $id) {
+    $cepModel = $this->getModel('cep');
+    $cep = $cepModel->getId($id);
 
-    $reader->open($filePath);
-    $primeiraLinha = true;
-
-    foreach ($reader->getSheetIterator() as $sheet) {
-      foreach ($sheet->getRowIterator() as $row) {
-        
-        if($primeiraLinha) {
-          $primeiraLinha = false;
-          continue;
-        }
-
-        $cells = $row->getCells();
-        $cellPrimeiraColuna = isset($cells[0]) ? $cells[0]->getValue() : null;
-
-        if ($cellPrimeiraColuna) {
-          $cepModel = $this->getModel('cep');
-          $cepObj = $cepModel->create($cellPrimeiraColuna);
-
-          if ($cepObj) {
-            http_response_code(201); // Created.
-          } else {
-              http_response_code(500);
-              echo json_encode(["erro" => "Problemas ao inserir Cep"]);
-          }
-        }
-      } 
+    if($cep) {
+      http_response_code(200);
+      echo json_encode($cep);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Cep não encontrado']);
     }
-
-      $reader->close();
   }
 
 }

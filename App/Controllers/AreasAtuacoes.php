@@ -10,6 +10,7 @@ class AreasAtuacoes extends Controller {
     $areaAtuacaoModel = $this->getModel('areaAtuacao');
     $areasAtuacoesList = $areaAtuacaoModel->findAll();
 
+    http_response_code(200);
     echo json_encode($areasAtuacoesList);
   }
 
@@ -25,6 +26,19 @@ class AreasAtuacoes extends Controller {
     } else {
         http_response_code(500);
         echo json_encode(["erro" => "Problemas ao inserir area de atuação"]);
+    }
+  }
+
+  public function show(int $id) {
+    $areaAtuacaoModel = $this->getModel('areaAtuacao');
+    $areaAtuacao = $areaAtuacaoModel->getId($id);
+
+    if($areaAtuacao) {
+      http_response_code(200);
+      echo json_encode($areaAtuacao);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Area de Atuação não encontrada']);
     }
   }
 

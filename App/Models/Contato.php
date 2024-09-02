@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
-use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Contato {
+
+  private string $smtpHost;
+  private int $smtpPort;
+  private string $smtpUsername;
+  private string $smtpPassword;
 
   private string $email;
   private string $nome;
@@ -17,6 +21,14 @@ class Contato {
     $this->nome = $data->primeiroNome . ' ' . $data->ultimoNome;
     $this->celular = $data->celular;
     $this->mensagem = $data->mensagem;
+
+    $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__, 2));
+    $dotenv->load();
+
+    $this->smtpHost = $_ENV['SMTP_HOST'];
+    $this->smtpPort = $_ENV['SMTP_PORT'];
+    $this->smtpUsername = $_ENV['SMTP_USERNAME'];
+    $this->smtpPassword = $_ENV['SMTP_PASSWORD'];
     
     $this->sendMails();
   }
@@ -28,16 +40,16 @@ class Contato {
       $mail->isSMTP();
       $mail->SMTPAuth = TRUE;
       $mail->SMTPSecure = 'ssl';
-      $mail->Host = 'smtp.hostinger.com';
-      $mail->Port = 465;
-      $mail->Username = 'contato@resifix.com.br';
-      $mail->Password = 'SassAp3002!';
+      $mail->Host = $this->smtpHost;
+      $mail->Port = $this->smtpPort;
+      $mail->Username = $this->smtpUsername;
+      $mail->Password = $this->smtpPassword;
       $mail->CharSet = PHPMailer::CHARSET_UTF8;
       $mail->setLanguage('pt');
-      $mail->setFrom('contato@resifix.com.br', 'Contato Resifix');
+      $mail->setFrom($this->smtpUsername, 'Contato Resifix');
       return $mail;
-    } catch (Exception $e) {
-      throw new Exception('Erro ao enviar e-mail: ' . $e->getMessage());
+    } catch (\Exception $e) {
+      throw new \Exception('Erro ao enviar e-mail: ' . $e->getMessage());
     }
   }
 
@@ -53,13 +65,13 @@ class Contato {
       $mail->send();
 
       $mail->clearAddresses();
-      $mail->addAddress('contato@resifix.com.br', 'Contato Resifix');
+      $mail->addAddress($this->smtpUsername, 'Contato Resifix');
       $mail->Subject = "Formulário de Contato Resifix | $this->nome";
       $mail->Body = $this->getAdminEmailBody();
 
       $mail->send();
-    } catch (Exception $e) {
-      throw new Exception('Erro ao enviar e-mail: ' . $e->getMessage());
+    } catch (\Exception $e) {
+      throw new \Exception('Erro ao enviar e-mail: ' . $e->getMessage());
     }
   }
 

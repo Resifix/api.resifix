@@ -8,7 +8,6 @@ class Contatos extends Controller {
 
   public function store() {
     $novoContato = $this->getRequestBody();
-
     $contatoModel = $this->getModel('contato');
 
     try {

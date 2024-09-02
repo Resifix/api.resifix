@@ -10,7 +10,7 @@ class SolicitacaoServico {
     private int $idCliente;
     private int $idProfissional;
     private float $orcamento;
-    private \DateTime $dataHoraOrcamento;
+    private string $dataHoraOrcamento;
 
     public function findAll() {
         $query = "SELECT * FROM tbSolicitacoesServicos";
@@ -29,7 +29,7 @@ class SolicitacaoServico {
         $this->idCliente = (int)$data->idCliente;
         $this->idProfissional = (int)$data->idProfissional;
         $this->orcamento = (float)$data->orcamento;
-        $this->dataHoraOrcamento = new \DateTime($data->dataHoraOrcamento);
+        $this->dataHoraOrcamento = (new \DateTime($data->dataHoraOrcamento))->format('Y-m-d H:i:s');
 
         $query = "INSERT INTO tbSolicitacoesServicos (idCliente, idProfissional, orcamento, dataHoraOrcamento) VALUES (:idCliente, :idProfissional, :orcamento, :dataHoraOrcamento)";
 
@@ -37,7 +37,7 @@ class SolicitacaoServico {
         $stmt->bindParam(':idCliente', $this->idCliente);
         $stmt->bindParam(':idProfissional', $this->idProfissional);
         $stmt->bindParam(':orcamento', $this->orcamento);
-        $stmt->bindParam(':dataHoraOrcamento', $this->dataHoraOrcamento->format('Y-m-d H:i:s'));
+        $stmt->bindParam(':dataHoraOrcamento', $this->dataHoraOrcamento);
 
         if ($stmt->execute()) {
             $this->idSolicitacaoServico = Model::getLastId('idSolicitacaoServico', 'tbSolicitacoesServicos');
@@ -47,5 +47,19 @@ class SolicitacaoServico {
             return NULL;
         }
     }
+
+    public function getId(int $id) {
+        $query = 'SELECT * FROM tbSolicitacoesServicos WHERE idSolicitacaoServico = ?';
+    
+        $stmt = Model::getConn()->prepare($query);
+        $stmt->bindValue(1, $id);
+        $stmt->execute();
+    
+        if($stmt->rowCount()) {
+          return $stmt->fetch(\PDO::FETCH_OBJ);
+        } else {
+          return [];
+        }
+      }
 
 }
