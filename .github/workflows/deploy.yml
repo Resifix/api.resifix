@@ -30,3 +30,14 @@ jobs:
         protocol: ftp
         dry-run: false
         log-level: standard
+
+    - name: Install Composer Dependencies on Hostinger
+      uses: appleboy/ssh-action@v0.1.8
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd api/
+          composer install --no-interaction --prefer-dist --optimize-autoloader
