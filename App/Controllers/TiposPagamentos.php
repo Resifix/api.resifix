@@ -41,4 +41,31 @@ class TiposPagamentos extends Controller {
     }
   }
 
+  public function update($id) {
+    $atualizacaoTipoPagamento = $this->getRequestBody();
+
+    $tipoPagamentoModel = $this->getModel('tipoPagamento');
+    $tipoPagamento = $tipoPagamentoModel->update($id, $atualizacaoTipoPagamento);
+
+    if ($tipoPagamento) {
+      http_response_code(200);
+      echo json_encode($tipoPagamento);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Tipo de pagamento não encontrado ou não atualizado']);
+    }
+  }
+
+  public function destroy($id) {
+    $tipoPagamentoModel = $this->getModel('tipoPagamento');
+    $deleted = $tipoPagamentoModel->delete($id);
+
+    if($deleted) {
+      http_response_code(200);
+      echo json_encode(['success' => 'Tipo de pagamento deletado com sucesso']);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Tipo de pagamento não encontrado ou já deletado']);
+    }
+  }
 }

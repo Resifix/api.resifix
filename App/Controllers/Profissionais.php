@@ -53,4 +53,31 @@ class Profissionais extends Controller {
     }
   }
 
+  public function update($id) {
+    $atualizacaoProfissional = $this->getRequestBody();
+
+    $profissionaisModel = $this->getModel('profissional');
+    $profissional = $profissionaisModel->update($id, $atualizacaoProfissional);
+
+    if ($profissional) {
+      http_response_code(200);
+      echo json_encode($profissional);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Profissional não encontrado ou não atualizado']);
+    }
+  }
+
+  public function destroy($id) {
+    $profissionaisModel = $this->getModel('profissional');
+    $deleted = $profissionaisModel->delete($id);
+
+    if($deleted) {
+      http_response_code(200);
+      echo json_encode(['success' => 'Profissional deletado com sucesso']);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Profissional não encontrado ou já deletado']);
+    }
+  }
 }

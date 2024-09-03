@@ -11,12 +11,11 @@ class Contatos extends Controller {
     $contatoModel = $this->getModel('contato');
 
     try {
-        $contatoModel->create($novoContato);
-        echo json_encode(["success" => 'Mensagem enviada com sucesso']);
+      $contatoModel->create($novoContato);
+      echo json_encode(["success" => 'Mensagem enviada com sucesso']);
     } catch (\Exception $e) {
-        http_response_code(500);
-        echo json_encode(["erro" => 'Erro ao enviar e-mail: ' . $e->getMessage()]);
+      http_response_code(500);
+      echo json_encode(["erro" => 'Erro ao enviar e-mail: ' . $e->getMessage()]);
     }
   }
-
 }

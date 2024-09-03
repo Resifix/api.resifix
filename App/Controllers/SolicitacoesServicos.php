@@ -42,4 +42,31 @@ class SolicitacoesServicos extends Controller {
     }
   }
 
+  public function update($id) {
+    $atualizacaoSolicitacaoServico = $this->getRequestBody();
+
+    $solicitacaoServicoModel = $this->getModel('solicitacaoServico');
+    $solicitacaoServico = $solicitacaoServicoModel->update($id, $atualizacaoSolicitacaoServico);
+
+    if ($solicitacaoServico) {
+      http_response_code(200);
+      echo json_encode($solicitacaoServico);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Solicitação de serviço não encontrada ou não atualizada']);
+    }
+  }
+
+  public function destroy($id) {
+    $solicitacaoServicoModel = $this->getModel('solicitacaoServico');
+    $deleted = $solicitacaoServicoModel->delete($id);
+
+    if($deleted) {
+      http_response_code(200);
+      echo json_encode(['success' => 'Solicitação de serviço deletada com sucesso']);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Solicitação de serviço não encontrada ou já deletada']);
+    }
+  }
 }

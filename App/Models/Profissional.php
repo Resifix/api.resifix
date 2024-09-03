@@ -45,9 +45,9 @@ class Profissional {
     $stmt->execute();
 
     if ($stmt->rowCount()) {
-        return $stmt->fetchAll();
+      return $stmt->fetchAll();
     } else {
-        return [];
+      return [];
     }
   }
 
@@ -60,14 +60,14 @@ class Profissional {
     $stmt->execute();
 
     if ($stmt->rowCount()) {
-        return $stmt->fetch();
+      return $stmt->fetch();
     } else {
-        return [];
+      return [];
     }
   }
 
   public function getId(int $id) {
-    $query = 'SELECT idProfissional, nome, email, celular, idAreaAtuacao FROM tbProfissionais FROM tbProfissionais WHERE idProfissional = ?';
+    $query = 'SELECT idProfissional, nome, email, celular, idAreaAtuacao FROM tbProfissionais WHERE idProfissional = ?';
 
     $stmt = Model::getConn()->prepare($query);
     $stmt->bindValue(1, $id);
@@ -80,4 +80,38 @@ class Profissional {
     }
   }
 
+  public function update($id, $data) {
+    $sql = "UPDATE tbProfissionais SET nome = :nome, email = :email, celular = :celular WHERE idProfissional = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':nome', $data->nome);
+      $stmt->bindParam(':email', $data->email);
+      $stmt->bindParam(':celular', $data->celular);
+      $stmt->bindParam(':id', $id);
+
+      if($stmt->execute()) {
+          return $this->getId($id);
+      }
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao atualizar o profissional: ' . $e->getMessage()]);
+    }
+
+    return null;
+  }
+
+  public function delete($id): bool {
+    $sql =  "DELETE FROM tbProfissionais WHERE idProfissional = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':id', $id);
+      return $stmt->execute();
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao deletar o profissional: ' . $e->getMessage()]);
+      return false;
+    }
+  }  
 }

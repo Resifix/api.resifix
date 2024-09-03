@@ -42,4 +42,31 @@ class Ceps extends Controller {
     }
   }
 
+  public function update($id) {
+    $atualizacaoCep = $this->getRequestBody();
+
+    $cepModel = $this->getModel('cep');
+    $cep = $cepModel->update($id, $atualizacaoCep);
+
+    if ($cep) {
+      http_response_code(200);
+      echo json_encode($cep);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Cep não encontrado ou não atualizado']);
+    }
+  }
+
+  public function destroy($id) {
+    $cepModel = $this->getModel('cep');
+    $deleted = $cepModel->delete($id);
+
+    if($deleted) {
+      http_response_code(200);
+      echo json_encode(['success' => 'Cep deletado com sucesso']);
+    } else {
+      http_response_code(404);
+      echo json_encode(['erro' => 'Cep não encontrado ou já deletado']);
+    }
+  }
 }

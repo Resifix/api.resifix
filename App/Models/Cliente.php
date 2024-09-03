@@ -86,4 +86,40 @@ class Cliente {
     }
   }
 
+  public function update($id, $data) {
+    $sql = "UPDATE tbClientes SET nome = :nome, email = :email, celular = :celular, numeroResidencia = :numeroResidencia, complementoResidencia = :complementoResidencia WHERE idCliente = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':nome', $data->nome);
+      $stmt->bindParam(':email', $data->email);
+      $stmt->bindParam(':celular', $data->celular);
+      $stmt->bindParam(':numeroResidencia', $data->numeroResidencia);
+      $stmt->bindParam(':complementoResidencia', $data->complementoResidencia);
+      $stmt->bindParam(':id', $id);
+
+      if($stmt->execute()) {
+          return $this->getId($id);
+      }
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao atualizar o cliente: ' . $e->getMessage()]);
+    }
+
+    return null;
+  }
+
+  public function delete($id): bool {
+    $sql =  "DELETE FROM tbClientes WHERE idCliente = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':id', $id);
+      return $stmt->execute();
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao deletar o cliente: ' . $e->getMessage()]);
+      return false;
+    }
+  }
 }

@@ -82,4 +82,36 @@ class AreaAtuacao {
     }
   }
 
+  public function update($id, $data) {
+    $sql = "UPDATE tbAreasAtuacoes SET descricao = :descricao WHERE idAreaAtuacao = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':descricao', $data->descricao);
+      $stmt->bindParam(':id', $id);
+
+      if($stmt->execute()) {
+          return $this->getId($id);
+      }
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao atualizar o área de atuação: ' . $e->getMessage()]);
+    }
+
+    return null;
+  }
+
+  public function delete($id): bool {
+    $sql =  "DELETE FROM tbAreasAtuacoes WHERE idAreaAtuacao = :id";
+
+    try {
+        $stmt = Model::getConn()->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    } catch (\PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['erro' => 'Erro ao deletar o área de atuação: ' . $e->getMessage()]);
+        return false;
+    }
+  }
 }

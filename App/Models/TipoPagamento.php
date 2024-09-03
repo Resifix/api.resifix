@@ -82,4 +82,36 @@ class TipoPagamento {
     }
   }
 
+  public function update($id, $data) {
+    $sql = "UPDATE tbTiposPagamentos SET descricao = :descricao WHERE idTipoPagamento = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':descricao', $data->descricao);
+      $stmt->bindParam(':id', $id);
+
+      if($stmt->execute()) {
+          return $this->getId($id);
+      }
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao atualizar o tipo de pagamento: ' . $e->getMessage()]);
+    }
+
+    return null;
+  }
+
+  public function delete($id): bool {
+    $sql =  "DELETE FROM tbTiposPagamentos WHERE idTipoPagamento = :id";
+
+    try {
+      $stmt = Model::getConn()->prepare($sql);
+      $stmt->bindParam(':id', $id);
+      return $stmt->execute();
+    } catch (\PDOException $e) {
+      http_response_code(500);
+      echo json_encode(['erro' => 'Erro ao deletar o tipo de pagamento: ' . $e->getMessage()]);
+      return false;
+    }
+  }
 }
